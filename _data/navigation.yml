@@ -1,7 +1,11 @@
 # main links links
 main:
+
+  - title: "CV"
+    url: /files/RaghavRathi_Resume.pdf
+
   - title: "Publications"
-    url: /publications/
+    url: "https://scholar.google.com/citations?user=gzsN9f8AAAAJ&hl=en"
 
   # - title: "Talks"
   #   url: /talks/    
@@ -15,8 +19,7 @@ main:
   # - title: "Blog Posts"
   #   url: /year-archive/
     
-  - title: "CV"
-    url: /cv/
+
     
   # - title: "Guide"
   #   url: /markdown/
