@@ -21,7 +21,7 @@ repository               : "raghavrathi10/raghavrathi10.github.io"
 #               Additional customization can be done by editing /_includes/author-profile.html
 author:
   # Biographic information
-  avatar           : "profile_pic.jpeg"
+  avatar           : "profile_Pic.jpeg"
   name             : "Raghav Rathi"
   pronouns         : # example: "she/her"  
   bio              : "PhD Candidate, Wireless Communication | Cyber Security"
