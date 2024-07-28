@@ -1,6 +1,6 @@
 ---
-title: "Project 1: MultiSense"
-excerpt: "A wearable free human fall detection system. <br/><img src='/images/500x300.png'>"
+title: "Project 4: 2-Pipe-"
+excerpt: "Short description of portfolio item number 2 <br/><img src='/images/500x300.png'>"
 collection: portfolio
 ---
 
