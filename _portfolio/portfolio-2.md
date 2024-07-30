@@ -1,7 +1,23 @@
 ---
-title: "Project 2: ZCNET"
-excerpt: " <br/><img src='/images/500x300.png'>"
+title: "Project 2: 2-Pipe"
+excerpt: "Collision resolution in LoRa Downlink. <br/><img src='/images/2-pipe/2pipe-1.png'>"
 collection: portfolio
 ---
 
-This is an item in your portfolio. It can be have images or nice text. If you name the file .md, it will be parsed as markdown. If you name the file .html, it will be parsed as HTML. 
+Technologies used: MATLAB, Arduino, C, Bash Scripts.
+
+
+
+Submitted to SenSys 2024.
+
+
+<p align="center">
+  <img src="/images/2-pipe/2pipe-2.png" width="250" title="Devices">
+  <figcaption>Devices used in experiment.</figcaption>
+</p>
+
+<p align="center">
+  <img src="/images/2-pipe/downlink.png" width="500" title="Lora Downlink">
+  <figcaption>Lora Downlink.</figcaption>
+</p>
+
