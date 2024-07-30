@@ -5,7 +5,7 @@ collection: portfolio
 ---
 Technologies used: MATLAB, GNU Radio, Python.
 
-This is my current research project in which I created my own Starlink receiver using a USRP B210 and a commercial of the shelf universal LNB, in order to receive beacon signals transmitted by Starlink satellites. These beacon signals are then used to analyze the orientation of the user. 
+This is my current research project in which I created my own [Starlink](https://www.starlink.com/us) receiver using a [USRP B210](https://www.ettus.com/all-products/ub210-kit/) and a commercial of the shelf [universal LNB](https://www.amazon.com/Universal-Single-Satellite-Linear-Polarized/dp/B01N1W636Q), in order to receive beacon signals transmitted by Starlink satellites. These beacon signals are then used to analyze the orientation of the user. 
 Submitted to SenSys 2024.
 
 <p align="center">

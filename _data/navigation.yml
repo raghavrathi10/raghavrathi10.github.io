@@ -3,6 +3,9 @@ main:
 
   - title: "CV"
     url: /files/RaghavRathi_Resume.pdf
+    
+  - title: "Portfolio"
+    url: /portfolio/
 
   - title: "Publications"
     url: "https://scholar.google.com/citations?user=gzsN9f8AAAAJ&hl=en"
@@ -13,8 +16,7 @@ main:
   - title: "Teaching"
     url: /teaching/    
     
-  - title: "Portfolio"
-    url: /portfolio/
+
         
   # - title: "Blog Posts"
   #   url: /year-archive/
