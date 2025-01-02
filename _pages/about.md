@@ -18,4 +18,4 @@ I am a recent PhD graduate from the Florida State University (Class of 2024), wh
 
 👾 Along with the PhD research, I have always been an active member of the FSU CTF team [Nol3ptr](https://ctftime.org/team/2524/) where we participate in weekly CTF competitions hosted all over the world.
 
-<p style="text-align: center;">*"Where There Is a Will, There Is a Way."* <br />-George Herbert</p>
+<p style="text-align: center;">_"Where There Is a Will, There Is a Way."_ <br />_-George Herbert_</p>
