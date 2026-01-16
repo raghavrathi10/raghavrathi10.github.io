@@ -1,0 +1,17 @@
+---
+// 1. You must export this function for dynamic routes in static sites
+export async function getStaticPaths() {
+  // In a professional portfolio, you might fetch this from a JSON file or Content Collections
+  // For now, these are the 'IDs' that will exist (e.g., yoursite.com/projects/starlink)
+  return [
+    { params: { id: 'starlink' } },
+    { params: { id: 'lora-security' } },
+    { params: { id: 'ctf-writeups' } },
+  ];
+}
+
+// 2. You can then use the ID in your page
+const { id } = Astro.params;
+---
+
+<h1>Project: {id}</h1>
