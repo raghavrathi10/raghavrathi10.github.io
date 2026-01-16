@@ -1,0 +1,430 @@
+/* Post Detail Page Styles */
+:root {
+  /* Heading spacing variables for post detail page */
+  --post-h2-margin-top: 3rem;
+  --post-h2-margin-bottom: 1.17rem;
+  --post-h2-content-margin-top: 1.17rem;
+  
+  --post-h3-margin-top: 2.5rem;
+  --post-h3-margin-bottom: 1rem;
+  --post-h3-content-margin-top: 1rem;
+  
+  --post-h4-margin-top: 2rem;
+  --post-h4-margin-bottom: 0.83rem;
+  --post-h4-content-margin-top: 0.83rem;
+}
+
+.post-detail-page {
+  min-height: 100vh;
+  padding-top: 160px;
+  padding-bottom: 4rem;
+  background: #fafdff;
+}
+
+.post-detail-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  width: 100%;
+}
+
+.post-header-card {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.post-detail-title {
+  font-size: 2rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #76cfc5 0%, #ffb400 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.2;
+  margin: 0;
+  word-break: break-word;
+  text-align: left;
+  width: 100%;
+  display: block;
+}
+
+.post-detail-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.2rem 0;
+}
+
+.post-detail-tag {
+  padding: 0.4rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: 2px solid #76cfc5;
+  border-radius: 20px;
+  background-color: rgba(118, 207, 197, 0.1);
+  color: #76cfc5;
+}
+
+.post-detail-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.post-detail-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #76cfc5;
+  flex-shrink: 0;
+  display: block;
+  vertical-align: middle;
+  margin: 0;
+}
+
+.post-back-button {
+  color: #d48a88;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.post-back-button:hover {
+  color: #ec6664;
+}
+
+.post-detail-meta-info {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+.post-detail-author {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.2;
+}
+
+.post-detail-date,
+.post-detail-read-time {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.2;
+}
+
+/* Post content container */
+.post-detail-page .post-content {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left !important;
+}
+
+/* Override global styles for post-content - ensure left alignment and proper spacing */
+.post-detail-page .post-content :global(p) {
+  max-width: none !important;
+  text-align: left !important;
+  margin-top: 0 !important;
+  margin-bottom: 2rem !important;
+}
+
+.post-detail-page .post-content :global(h2),
+.post-detail-page .post-content h2 {
+  font-size: 1.75rem !important;
+  font-weight: 700 !important;
+  margin-top: 3rem !important;
+  margin-bottom: 3.5rem !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  color: #333 !important;
+  line-height: 1.3 !important;
+  text-align: left !important;
+  display: block !important;
+}
+
+.post-detail-page .post-content :global(h2:first-child) {
+  margin-top: 0 !important;
+}
+
+/* Ensure proper spacing after h2 - add significant margin-top */
+.post-detail-page .post-content :global(h2) + :global(p),
+.post-detail-page .post-content :global(h2) + :global(ul),
+.post-detail-page .post-content :global(h2) + :global(ol) {
+  margin-top: 3.5rem !important;
+}
+
+.post-detail-page .post-content :global(h3),
+.post-detail-page .post-content h3 {
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  margin-top: 2.5rem !important;
+  margin-bottom: 3rem !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  color: #333 !important;
+  line-height: 1.3 !important;
+  text-align: left !important;
+  display: block !important;
+}
+
+.post-detail-page .post-content :global(h3) + :global(p),
+.post-detail-page .post-content :global(h3) + :global(ul),
+.post-detail-page .post-content :global(h3) + :global(ol) {
+  margin-top: 3rem !important;
+}
+
+.post-detail-page .post-content :global(h4),
+.post-detail-page .post-content h4 {
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  margin-top: 2rem !important;
+  margin-bottom: 2.5rem !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  color: #333 !important;
+  line-height: 1.3 !important;
+  text-align: left !important;
+  display: block !important;
+}
+
+.post-detail-page .post-content :global(h4) + :global(p),
+.post-detail-page .post-content :global(h4) + :global(ul),
+.post-detail-page .post-content :global(h4) + :global(ol),
+.post-detail-page .post-content :global(h4) + :global(pre) {
+  margin-top: 2.5rem !important;
+}
+
+.post-detail-page .post-content :global(ul),
+.post-detail-page .post-content :global(ol) {
+  margin-top: var(--space-4, 24px) !important;
+  text-align: left !important;
+}
+
+.post-detail-page .post-content :global(ul:first-child),
+.post-detail-page .post-content :global(ol:first-child) {
+  margin-top: 0 !important;
+}
+
+.post-detail-page .post-content :global(li) {
+  margin-bottom: calc(var(--space-4, 24px) / 2) !important;
+  text-align: left !important;
+}
+
+.post-detail-page .post-content :global(li) :global(strong) {
+  font-weight: 700;
+  color: #333;
+}
+
+.post-detail-page .post-content :global(li) :global(p) {
+  margin-bottom: 12px !important;
+}
+
+.post-detail-page .post-content :global(li) :global(ul),
+.post-detail-page .post-content :global(li) :global(ol) {
+  margin-bottom: 12px !important;
+  margin-left: 24px !important;
+  margin-top: 12px !important;
+}
+
+.post-detail-page .post-content :global(li) :global(:last-child) {
+  margin-bottom: 0 !important;
+}
+
+.post-detail-page .post-content :global(li:last-child) {
+  margin-bottom: 0 !important;
+}
+
+.post-detail-page .post-content :global(strong),
+.post-detail-page .post-content :global(b),
+.post-detail-page .post-content :global(dt),
+.post-detail-page .post-content :global(th) {
+  font-weight: 700;
+}
+
+.post-detail-page .post-content :global(code),
+.post-detail-page .post-content :global(kbd),
+.post-detail-page .post-content :global(samp),
+.post-detail-page .post-content :global(tt) {
+  background-color: #fff4db;
+  border-radius: 4px;
+  color: #8a6534;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.875em;
+  padding: 0.2em 0.4em;
+  word-break: normal;
+}
+
+.post-detail-page .post-content :global(code:after),
+.post-detail-page .post-content :global(code:before),
+.post-detail-page .post-content :global(tt:after),
+.post-detail-page .post-content :global(tt:before) {
+  content: "\00a0";
+  letter-spacing: -0.2em;
+}
+
+/* Override Astro code highlighting styles */
+.post-detail-page .post-content :global(pre),
+.post-detail-page .post-content :global(pre.astro-code),
+.post-detail-page .post-content :global(pre[class*="astro-code"]),
+.post-detail-page .post-content :global(pre[style*="background-color"]) {
+  background: #f5f5f5 !important;
+  border-radius: 8px !important;
+  font-size: 0.875rem !important;
+  line-height: 1.5 !important;
+  margin: 0 0 24px 0 !important;
+  padding: 24px !important;
+  overflow-x: auto !important;
+  word-wrap: normal !important;
+}
+
+.post-detail-page .post-content :global(pre) :global(code),
+.post-detail-page .post-content :global(pre.astro-code) :global(code),
+.post-detail-page .post-content :global(pre[class*="astro-code"]) :global(code),
+.post-detail-page .post-content :global(pre[style*="background-color"]) :global(code) {
+  background: transparent !important;
+  color: #333 !important;
+  padding: 0 !important;
+  font-size: inherit !important;
+}
+
+.post-detail-page .post-content :global(pre) :global(code) :global(span),
+.post-detail-page .post-content :global(pre.astro-code) :global(code) :global(span),
+.post-detail-page .post-content :global(pre[class*="astro-code"]) :global(code) :global(span) {
+  color: #333 !important;
+}
+
+.post-detail-page .post-content :global(pre) :global(code) :global(span[style]),
+.post-detail-page .post-content :global(pre.astro-code) :global(code) :global(span[style]) {
+  color: #333 !important;
+}
+
+.post-detail-page .post-content :global(pre) :global(code:after),
+.post-detail-page .post-content :global(pre) :global(code:before),
+.post-detail-page .post-content :global(pre) :global(tt:after),
+.post-detail-page .post-content :global(pre) :global(tt:before) {
+  content: none;
+}
+
+.post-detail-page .post-content :global(blockquote) {
+  border-left: 4px solid #76cfc5;
+  padding-left: 1rem;
+  margin: 24px 0 !important;
+  color: #666;
+  font-style: italic;
+  text-align: left !important;
+}
+
+.post-detail-page .post-content :global(blockquote) :global(:last-child) {
+  margin-bottom: 0;
+}
+
+.post-detail-page .post-content :global(hr) {
+  background: rgba(0, 0, 0, 0.2);
+  border: none;
+  box-sizing: content-box;
+  height: 1px;
+  margin: 24px 0 !important;
+  overflow: visible;
+  padding: 0;
+}
+
+.post-detail-page .post-content :global(img) {
+  border-style: none;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+}
+
+.post-detail-page .post-content :global(a) {
+  background-color: transparent;
+  color: #7026b9;
+  font-weight: 500;
+  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 2px;
+}
+
+.post-detail-page .post-content :global(a:active),
+.post-detail-page .post-content :global(a:hover) {
+  outline-width: 0;
+  text-decoration: none;
+}
+
+/* Code Example Block */
+.post-detail-page .post-content :global(.code-example) {
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.post-detail-page .post-content :global(.code-example) :global(h4) {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.post-detail-page .post-content :global(.highlight) {
+  background: rgba(118, 207, 197, 0.1);
+  border-left: 4px solid #76cfc5;
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 4px;
+}
+
+.post-detail-page .post-content :global(.highlight) :global(p) {
+  margin-bottom: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .post-detail-page {
+    padding-top: 140px;
+    padding-bottom: 2rem;
+  }
+
+  .post-detail-container {
+    padding: 0 1rem;
+  }
+
+  .post-header-card,
+  .post-detail-page .post-content {
+    padding: 2rem 1.5rem;
+  }
+
+  .post-detail-title {
+    font-size: 1.75rem;
+  }
+
+  .post-detail-page .post-content :global(h2) {
+    font-size: 1.5rem;
+  }
+
+  .post-detail-page .post-content :global(h3) {
+    font-size: 1.25rem;
+  }
+}
+

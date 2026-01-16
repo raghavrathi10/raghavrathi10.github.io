@@ -1,0 +1,168 @@
+---
+import "../styles/home.css";
+import "../styles/comments.css";
+import "../styles/page-transitions.css";
+import Navigation from "../components/Navigation.astro";
+import Footer from "../components/Footer.astro";
+import GiscusComments from "../components/GiscusComments";
+import { siteConfig } from "../config/site";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Comments & Discussion - Astro Blog</title>
+    <script>
+      // Disable browser scroll restoration and ensure page starts at top
+      if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+      }
+      // Immediately scroll to top on page load
+      window.scrollTo(0, 0);
+    </script>
+  </head>
+  <body>
+    <Navigation />
+
+    <main class="comments-page">
+      <div class="comments-page-container page-content">
+        <div class="comments-header comments-header-animate">
+          <h1 class="comments-title">{siteConfig.comments.title}</h1>
+          <p class="comments-subtitle">
+            {siteConfig.comments.subtitle}
+          </p>
+          <div class="comments-divider"></div>
+        </div>
+
+        <div class="guidelines-section comments-content-animate">
+          <h2 class="guidelines-title">
+            {siteConfig.comments.guidelines.title}
+          </h2>
+          <ul class="guidelines-list">
+            {
+              siteConfig.comments.guidelines.items.map((item, index) => {
+                const icons = [
+                  {
+                    type: "circle",
+                    element: <circle cx="9" cy="9" r="3.2" fill="#fff" />,
+                  },
+                  {
+                    type: "square",
+                    element: (
+                      <rect
+                        x="5.2"
+                        y="5.2"
+                        width="7.6"
+                        height="7.6"
+                        rx="2"
+                        fill="#fff"
+                      />
+                    ),
+                  },
+                  {
+                    type: "triangle",
+                    element: (
+                      <polygon points="9,5.2 12.8,12.8 5.2,12.8" fill="#fff" />
+                    ),
+                  },
+                  {
+                    type: "pentagon",
+                    element: (
+                      <polygon
+                        points="9,5 13.2,8 11.8,13 6.2,13 4.8,8"
+                        fill="#fff"
+                      />
+                    ),
+                  },
+                  {
+                    type: "star",
+                    element: (
+                      <polygon
+                        points="9,5 10,8 13.2,8.3 10.8,10.3 11.6,13.5 9,11.7 6.4,13.5 7.2,10.3 4.8,8.3 8,8"
+                        fill="#fff"
+                      />
+                    ),
+                  },
+                  {
+                    type: "heart",
+                    element: (
+                      <path
+                        d="M9 14.5s-3.5-2.5-3.5-4.7A2.2 2.2 0 0 1 9 7.5a2.2 2.2 0 0 1 3.5 2.3c0 2.2-3.5 4.7-3.5 4.7z"
+                        fill="#fff"
+                      />
+                    ),
+                  },
+                ];
+                const icon = icons[index] || icons[0];
+                return (
+                  <li class="guideline-item">
+                    <span class={`guideline-icon guideline-icon-${icon.type}`}>
+                      <svg width="18" height="18" viewBox="0 0 18 18">
+                        {icon.element}
+                      </svg>
+                    </span>
+                    {item}
+                  </li>
+                );
+              })
+            }
+          </ul>
+        </div>
+
+        <div class="comments-section comments-content-animate">
+          <GiscusComments client:load />
+        </div>
+      </div>
+    </main>
+
+    <Footer />
+
+    <script>
+      // Ensure scroll position is at top after DOM loads
+      document.addEventListener("DOMContentLoaded", () => {
+        window.scrollTo(0, 0);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 0);
+      });
+      // Also ensure on page show (handles back/forward navigation)
+      window.addEventListener("pageshow", (event) => {
+        if (event.persisted) {
+          window.scrollTo(0, 0);
+        }
+      });
+
+      // Initialize page transition animations
+      document.addEventListener("DOMContentLoaded", () => {
+        // Trigger page content animation
+        const pageContent = document.querySelector(".page-content");
+        if (pageContent) {
+          requestAnimationFrame(() => {
+            pageContent.classList.add("visible");
+          });
+        }
+
+        // Trigger header animation
+        const header = document.querySelector(".comments-header-animate");
+        if (header) {
+          requestAnimationFrame(() => {
+            header.classList.add("visible");
+          });
+        }
+
+        // Trigger content animations
+        const contentElements = document.querySelectorAll(
+          ".comments-content-animate"
+        );
+        contentElements.forEach((element) => {
+          requestAnimationFrame(() => {
+            element.classList.add("visible");
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

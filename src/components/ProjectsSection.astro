@@ -1,0 +1,613 @@
+---
+import { projectsConfig } from "../config/projects";
+---
+
+<section class="projects-section">
+  <div class="projects-container">
+    <h2 class="projects-title">Projects</h2>
+    <div class="projects-carousel-wrapper">
+      <div class="mask">
+        <div
+          role="region"
+          aria-roledescription="carousel"
+          class="coverflow-carousel"
+          draggable="false"
+          style="display:flex;position:relative;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;touch-action:pan-y"
+        >
+          <ul
+            role="group"
+            id="projects-carousel-ul"
+            style="display:flex;position:relative;list-style-type:none;padding:0;margin:0;justify-content:flex-start;flex-direction:row;gap:0px;align-items:center;width:100%;height:100%;max-height:100%;max-width:100%;"
+          >
+            {
+              projectsConfig.images.map((imageSrc, index) => (
+                <li
+                  class="ticker-item"
+                  aria-hidden="false"
+                  aria-posinset={index + 1}
+                  aria-setsize={projectsConfig.images.length}
+                  style="flex-grow:0;flex-shrink:0;position:relative;height:fit-content;z-index:1000;transform:none"
+                >
+                  <img
+                    draggable="false"
+                    src={imageSrc}
+                    alt={`Project ${index + 1}`}
+                    class="coverflow-item"
+                    style="transform:perspective(500px)"
+                  />
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- Project Description Area -->
+    <div class="project-description-area" id="project-description-area">
+      <div class="project-description-viewport">
+        <div class="project-description-track" id="project-description-track">
+          {
+            projectsConfig.projects.map((project, index) => (
+              <div class="project-content-item" data-project-index={index}>
+                <h3 class="project-title">{project.title}</h3>
+                <p class="project-description">{project.description}</p>
+                <div class="project-technologies">
+                  {project.technologies.map((tech) => (
+                    <span class="technology-tag">{tech}</span>
+                  ))}
+                </div>
+                <div class="project-links">
+                  <a href={project.liveLink} class="project-link">
+                    Live <span style="font-size: 1.2rem;">→</span>
+                  </a>
+                  <a href={project.githubLink} class="project-link">
+                    GitHub <span style="font-size: 1.2rem;">→</span>
+                  </a>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script
+  type="application/json"
+  id="projects-data"
+  set:html={JSON.stringify(projectsConfig.projects)}
+/>
+
+<script>
+  // Projects Carousel - Coverflow Effect (based on the former carousel-demo reference)
+  (function initProjectsCarousel() {
+    const carouselUl = document.getElementById("projects-carousel-ul");
+    const carouselContainer = carouselUl?.parentElement; // .coverflow-carousel
+    const items = carouselUl?.querySelectorAll(".ticker-item");
+    const images = carouselUl?.querySelectorAll(".coverflow-item");
+
+    if (!carouselUl || !carouselContainer || !items || !images) {
+      console.error("Projects carousel elements not found");
+      return;
+    }
+
+    // Project data loaded from config JSON
+    const projectsData = JSON.parse(
+      document.getElementById("projects-data")?.textContent || "[]"
+    );
+
+    // Update project description with vertical scroll to avoid flicker
+    const descriptionTrack = document.getElementById(
+      "project-description-track"
+    );
+    const descriptionViewport = document.querySelector(
+      ".project-description-viewport"
+    ) as HTMLElement;
+    let currentProjectIndex = 0;
+    let isScrolling = false;
+    let currentTranslateY = 0;
+
+    // Initialize: position the first project
+    function initializeDescriptionPosition() {
+      if (!descriptionTrack || !descriptionViewport) return;
+
+      const items = descriptionTrack.querySelectorAll(".project-content-item");
+      if (items.length === 0) return;
+
+      const firstItem = items[0] as HTMLElement;
+      if (firstItem) {
+        // Wait for layout to complete before measuring
+        requestAnimationFrame(() => {
+          // Move the first item to align with the viewport top
+          const firstItemTop = firstItem.offsetTop;
+          currentTranslateY = -firstItemTop;
+          descriptionTrack.style.transform = `translateY(${currentTranslateY}px)`;
+        });
+      }
+    }
+
+    function updateProjectDescription(projectIndex: number) {
+      if (!descriptionTrack || !descriptionViewport || isScrolling) return;
+      if (projectIndex === currentProjectIndex) return;
+
+      const items = descriptionTrack.querySelectorAll(".project-content-item");
+      if (items.length === 0) return;
+
+      if (projectIndex < 0 || projectIndex >= items.length) return;
+
+      // Get target project position
+      const targetItem = items[projectIndex] as HTMLElement;
+      if (!targetItem) return;
+
+      // Compute target translate so the project aligns with viewport top
+      const targetItemTop = targetItem.offsetTop;
+      const targetY = -targetItemTop;
+
+      // Start scroll animation
+      isScrolling = true;
+      const startY = currentTranslateY;
+      const startTime = performance.now();
+      const duration = 500; // 500ms scroll animation
+
+      function animateScroll(currentTime: number) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        // Ease-in-out cubic
+        const easeInOutCubic =
+          progress < 0.5
+            ? 4 * progress * progress * progress
+            : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+        currentTranslateY = startY + (targetY - startY) * easeInOutCubic;
+        descriptionTrack.style.transform = `translateY(${currentTranslateY}px)`;
+
+        if (progress < 1) {
+          requestAnimationFrame(animateScroll);
+        } else {
+          // Animation done
+          currentTranslateY = targetY;
+          currentProjectIndex = projectIndex;
+          isScrolling = false;
+        }
+      }
+
+      requestAnimationFrame(animateScroll);
+    }
+
+    const itemWidth = 350; // SVG image width
+    const gap = 0;
+    const totalItems = items.length;
+    const cloneCount = totalItems;
+
+    // Create cloned items (front clones: full list)
+    for (let i = 0; i < cloneCount; i++) {
+      const originalItem = items[i];
+      const clone = originalItem.cloneNode(true);
+      clone.classList.add("clone-item");
+      clone.setAttribute("data-clone-index", i);
+      clone.setAttribute("data-original-index", i);
+      clone.setAttribute("aria-hidden", "true");
+      carouselUl.insertBefore(clone, items[0]);
+    }
+
+    // Create cloned items (back clones: full list)
+    for (let i = 0; i < cloneCount; i++) {
+      const originalItem = items[i];
+      const clone = originalItem.cloneNode(true);
+      clone.classList.add("clone-item");
+      clone.setAttribute("data-clone-index", i);
+      clone.setAttribute("data-original-index", i);
+      clone.setAttribute("aria-hidden", "true");
+      carouselUl.appendChild(clone);
+    }
+
+    // Re-fetch all items (including clones)
+    const allItems = carouselUl.querySelectorAll(".ticker-item");
+    const allImages = carouselUl.querySelectorAll(".coverflow-item");
+    const totalVirtualItems = totalItems * 3;
+
+    let currentX = 0;
+    let isDragging = false;
+    let startX = 0;
+    let startScrollLeft = 0;
+    let velocity = 0;
+    let lastX = 0;
+    let lastTime = 0;
+    let animationFrameId: number | null = null;
+    let dragDistance = 0;
+    let clickedItemIndex: number | null = null;
+    let autoPlayTimer: number | null = null;
+    let isAutoPlaying = true;
+    const autoPlayInterval = 4000;
+    let lastProjectIndex = -1; // track last displayed project index
+
+    function getOffset(itemIndex: number, scrollX: number) {
+      if (!carouselContainer) return 0;
+      const containerCenter = carouselContainer.offsetWidth / 2;
+      const itemStart = itemIndex * (itemWidth + gap);
+      const itemCenterX = itemStart + scrollX + itemWidth / 2;
+      return itemCenterX - containerCenter;
+    }
+
+    function lerp(
+      input: number,
+      inputRange: number[],
+      outputRange: (number | string)[]
+    ) {
+      if (input <= inputRange[0]) return outputRange[0];
+      if (input >= inputRange[inputRange.length - 1])
+        return outputRange[outputRange.length - 1];
+
+      for (let i = 0; i < inputRange.length - 1; i++) {
+        if (input >= inputRange[i] && input <= inputRange[i + 1]) {
+          const t =
+            (input - inputRange[i]) / (inputRange[i + 1] - inputRange[i]);
+          if (
+            typeof outputRange[i] === "string" &&
+            outputRange[i].includes("%")
+          ) {
+            const start = parseFloat(outputRange[i] as string);
+            const end = parseFloat(outputRange[i + 1] as string);
+            return start + (end - start) * t + "%";
+          }
+          return (
+            (outputRange[i] as number) +
+            ((outputRange[i + 1] as number) - (outputRange[i] as number)) * t
+          );
+        }
+      }
+      return outputRange[0];
+    }
+
+    function getTransformFromOffset(offset: number) {
+      const rotateY = lerp(offset, [-200, 0, 200], [45, 0, -45]);
+      const scale = lerp(offset, [-200, 0, 200], [0.7, 1, 0.7]);
+      const x = lerp(
+        offset,
+        [-800, -200, 200, 800],
+        ["100%", "0%", "0%", "-100%"]
+      );
+      const zIndex = Math.max(0, Math.round(1000 - Math.abs(offset)));
+      return { rotateY, scale, x, zIndex };
+    }
+
+    function updateTransforms() {
+      allItems.forEach((item, virtualIndex) => {
+        const img = item.querySelector(".coverflow-item") as HTMLElement;
+        if (!img) return;
+
+        const offset = getOffset(virtualIndex, currentX);
+        const { rotateY, scale, x, zIndex } = getTransformFromOffset(offset);
+
+        (item as HTMLElement).style.zIndex = zIndex.toString();
+
+        const xPx =
+          x === "0%" ? 0 : (parseFloat(x as string) / 100) * itemWidth;
+
+        img.style.transform = `perspective(500px) translateX(${xPx}px) rotateY(${rotateY}deg) scale(${scale})`;
+      });
+    }
+
+    function getSnapPosition(virtualIndex: number) {
+      if (!carouselContainer) return 0;
+      const containerCenter = carouselContainer.offsetWidth / 2;
+      const itemStart = virtualIndex * (itemWidth + gap);
+      return containerCenter - itemStart - itemWidth / 2;
+    }
+
+    function checkLoopJump() {
+      if (isDragging || animationFrameId) return;
+
+      const singleSetWidth = totalItems * (itemWidth + gap);
+
+      if (currentX > -singleSetWidth / 2) {
+        currentX -= singleSetWidth;
+        carouselUl.style.transition = "none";
+        updateCarouselPosition();
+        setTimeout(() => {
+          carouselUl.style.transition = "";
+        }, 0);
+      }
+
+      const maxScroll = -singleSetWidth * 1.5;
+      if (currentX < maxScroll) {
+        currentX += singleSetWidth;
+        carouselUl.style.transition = "none";
+        updateCarouselPosition();
+        setTimeout(() => {
+          carouselUl.style.transition = "";
+        }, 0);
+      }
+    }
+
+    function findNearestItem() {
+      if (!carouselContainer) return totalItems;
+      const containerCenter = carouselContainer.offsetWidth / 2;
+      let nearestIndex = totalItems;
+      let minDistance = Infinity;
+
+      allItems.forEach((item, virtualIndex) => {
+        const itemStart = virtualIndex * (itemWidth + gap);
+        const itemCenterX = itemStart + currentX + itemWidth / 2;
+        const distance = Math.abs(itemCenterX - containerCenter);
+        if (distance < minDistance) {
+          minDistance = distance;
+          nearestIndex = virtualIndex;
+        }
+      });
+
+      return nearestIndex;
+    }
+
+    // Map virtual index to real project index
+    function getRealProjectIndex(virtualIndex: number): number {
+      // Virtual index ranges:
+      // 0 ~ cloneCount-1: leading clones
+      // cloneCount ~ cloneCount+totalItems-1: real items
+      // cloneCount+totalItems ~ cloneCount*2+totalItems-1: trailing clones
+      if (virtualIndex < cloneCount) {
+        // Leading clones map to corresponding real item
+        return virtualIndex;
+      } else if (virtualIndex < cloneCount + totalItems) {
+        // Real item
+        return virtualIndex - cloneCount;
+      } else {
+        // Trailing clones map to corresponding real item
+        return virtualIndex - cloneCount - totalItems;
+      }
+    }
+
+    // Update project description based on nearest item
+    function updateProjectDescriptionFromCarousel() {
+      const nearestVirtualIndex = findNearestItem();
+      const realIndex = getRealProjectIndex(nearestVirtualIndex);
+      // Only update when the project actually changes
+      if (realIndex !== lastProjectIndex) {
+        lastProjectIndex = realIndex;
+        updateProjectDescription(realIndex);
+      }
+    }
+
+    // Convert virtual index to real index and update description before animation
+    function updateProjectDescriptionForVirtualIndex(virtualIndex: number) {
+      const realIndex = getRealProjectIndex(virtualIndex);
+      if (realIndex !== lastProjectIndex) {
+        lastProjectIndex = realIndex;
+        updateProjectDescription(realIndex);
+      }
+    }
+
+    function goToItem(virtualIndex: number) {
+      // Update description before carousel animation starts
+      updateProjectDescriptionForVirtualIndex(virtualIndex);
+      const snapX = getSnapPosition(virtualIndex);
+      animateTo(snapX);
+    }
+
+    function nextItem() {
+      const currentVirtualIndex = findNearestItem();
+      const nextVirtualIndex = currentVirtualIndex + 1;
+      goToItem(nextVirtualIndex);
+    }
+
+    function prevItem() {
+      const currentVirtualIndex = findNearestItem();
+      const prevVirtualIndex = currentVirtualIndex - 1;
+      goToItem(prevVirtualIndex);
+    }
+
+    function startAutoPlay() {
+      if (autoPlayTimer) return;
+      autoPlayTimer = window.setInterval(() => {
+        if (!isDragging && !animationFrameId && isAutoPlaying) {
+          nextItem();
+        }
+      }, autoPlayInterval);
+    }
+
+    function stopAutoPlay() {
+      if (autoPlayTimer) {
+        clearInterval(autoPlayTimer);
+        autoPlayTimer = null;
+      }
+    }
+
+    function pauseAutoPlay() {
+      stopAutoPlay();
+      setTimeout(() => {
+        if (isAutoPlaying) {
+          startAutoPlay();
+        }
+      }, 5000);
+    }
+
+    function animateTo(targetX: number, duration = 450) {
+      const startX = currentX;
+      const startTime = performance.now();
+
+      function animate(currentTime: number) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        const easeOutCubic = 1 - Math.pow(1 - progress, 3);
+        currentX = startX + (targetX - startX) * easeOutCubic;
+
+        updateCarouselPosition();
+
+        if (progress < 1) {
+          animationFrameId = requestAnimationFrame(animate);
+        } else {
+          animationFrameId = null;
+          checkLoopJump();
+          // After animation finishes, ensure description is in the correct position
+          updateProjectDescriptionFromCarousel();
+        }
+      }
+
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+      animationFrameId = requestAnimationFrame(animate);
+    }
+
+    function updateCarouselPosition() {
+      carouselUl.style.transform = `translateX(${currentX}px)`;
+      updateTransforms();
+      checkLoopJump();
+    }
+
+    carouselUl.addEventListener("mousedown", (e) => {
+      const clickedElement = (e.target as HTMLElement).closest(".ticker-item");
+      if (clickedElement) {
+        clickedItemIndex = Array.from(allItems).indexOf(clickedElement);
+      } else {
+        clickedItemIndex = null;
+      }
+
+      isDragging = true;
+      startX = e.pageX;
+      startScrollLeft = currentX;
+      lastX = e.pageX;
+      lastTime = performance.now();
+      velocity = 0;
+      dragDistance = 0;
+      carouselUl.style.cursor = "grabbing";
+
+      pauseAutoPlay();
+
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      }
+    });
+
+    carouselUl.addEventListener("mousemove", (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      const now = performance.now();
+      const deltaTime = now - lastTime;
+      const deltaX = e.pageX - lastX;
+
+      if (deltaTime > 0) {
+        velocity = deltaX / deltaTime;
+      }
+
+      const x = e.pageX - startX;
+      dragDistance = Math.abs(x);
+      currentX = startScrollLeft + x;
+      updateCarouselPosition();
+
+      lastX = e.pageX;
+      lastTime = now;
+    });
+
+    carouselUl.addEventListener("mouseup", () => {
+      if (isDragging) {
+        isDragging = false;
+        carouselUl.style.cursor = "grab";
+
+        if (dragDistance < 5 && clickedItemIndex !== null) {
+          const offset = getOffset(clickedItemIndex, currentX);
+
+          if (offset < -50) {
+            prevItem();
+          } else if (offset > 50) {
+            nextItem();
+          } else {
+            goToItem(clickedItemIndex);
+          }
+        } else {
+          const nearestIndex = findNearestItem();
+          // Update description before animation starts
+          updateProjectDescriptionForVirtualIndex(nearestIndex);
+          const snapX = getSnapPosition(nearestIndex);
+          animateTo(snapX);
+        }
+
+        dragDistance = 0;
+        clickedItemIndex = null;
+
+        pauseAutoPlay();
+      }
+    });
+
+    carouselUl.addEventListener("mouseleave", () => {
+      if (isDragging) {
+        isDragging = false;
+        carouselUl.style.cursor = "grab";
+      }
+    });
+
+    carouselUl.addEventListener("touchstart", (e) => {
+      isDragging = true;
+      startX = e.touches[0].pageX;
+      startScrollLeft = currentX;
+      lastX = e.touches[0].pageX;
+      lastTime = performance.now();
+      velocity = 0;
+
+      pauseAutoPlay();
+
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      }
+    });
+
+    carouselUl.addEventListener("touchmove", (e) => {
+      if (!isDragging) return;
+      const now = performance.now();
+      const deltaTime = now - lastTime;
+      const deltaX = e.touches[0].pageX - lastX;
+
+      if (deltaTime > 0) {
+        velocity = deltaX / deltaTime;
+      }
+
+      const x = e.touches[0].pageX - startX;
+      currentX = startScrollLeft + x;
+      updateCarouselPosition();
+
+      lastX = e.touches[0].pageX;
+      lastTime = now;
+    });
+
+    carouselUl.addEventListener("touchend", () => {
+      if (isDragging) {
+        isDragging = false;
+
+        const nearestIndex = findNearestItem();
+        // Update description before animation starts
+        updateProjectDescriptionForVirtualIndex(nearestIndex);
+        const snapX = getSnapPosition(nearestIndex);
+        animateTo(snapX);
+
+        pauseAutoPlay();
+      }
+    });
+
+    carouselUl.style.cursor = "grab";
+
+    allImages.forEach((img) => {
+      (img as HTMLElement).style.cursor = "pointer";
+    });
+
+    if (carouselContainer) {
+      const centerVirtualIndex = totalItems;
+      currentX = getSnapPosition(centerVirtualIndex);
+      updateCarouselPosition();
+    }
+
+    updateTransforms();
+
+    // Initialize description position
+    initializeDescriptionPosition();
+
+    // Initialize description (show first project without scrolling)
+    currentProjectIndex = 0;
+
+    startAutoPlay();
+  })();
+</script>

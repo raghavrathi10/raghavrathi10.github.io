@@ -1,0 +1,190 @@
+---
+import "../styles/home.css";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>About Me - Astro Blog</title>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav>
+      <a href="/" class="site-name">Astro Blog</a>
+      <ul class="nav-menu">
+        <li><a href="/" class="menu-link">Home</a></li>
+        <li><a href="/about" class="menu-link">About</a></li>
+        <li><a href="/posts" class="menu-link">Posts</a></li>
+        <li><a href="/contact" class="menu-link">Contact</a></li>
+        <!-- <li><a href="/projects" class="menu-link">Projects</a></li> -->
+      </ul>
+    </nav>
+
+    <!-- About Me -->
+    <section class="about-section">
+      <div class="about-content">
+        <h2 class="about-title">About Me</h2>
+        <p class="about-text">
+          I currently work full-time as a Cybersecurity Engineer in the public sector, 
+          where I support enterprise security operations through incident response, alert tuning, security orchestration, 
+          tool deployment, etc.
+          My work focuses on improving detection quality, validating controls through adversary testing, 
+          and strengthening security operations by aligning people, process, and technology. 
+          I enjoy tackling complex problems, working across teams, and translating technical depth into actionable security outcomes.
+        </p>
+      </div>
+    </section>
+
+    <div class="new-section"></div>
+
+    <!-- Proficiency Card -->
+    <div style="position: relative; width: 100%; padding: 4rem 0; display: flex; justify-content: center;">
+      <div class="proficiency-card" style="position: relative; top: auto; left: auto; transform: none; margin: 0 auto;">
+      <h3 class="card-title">Proficiency</h3>
+      <div class="skills-container">
+        <div class="skill-row">
+          <div class="skill-item">
+            <span class="skill-name-label">Python</span>
+            <div class="skill-percentage">95%</div>
+            <div class="progress-container-left">
+              <div class="progress-bar-left">
+                <div class="progress-fill-left" style="width: 95%"></div>
+              </div>
+            </div>
+            <div class="skill-logo" style="background: #76cfc5;">Python</div>
+          </div>
+          <div class="skill-item-right">
+            <div class="skill-percentage">90%</div>
+            <div class="progress-container">
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 90%"></div>
+              </div>
+            </div>
+            <div class="skill-logo" style="background: #ec6664;">DFIR</div>
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-item">
+            <div class="skill-percentage">88%</div>
+            <div class="progress-container-left">
+              <div class="progress-bar-left">
+                <div class="progress-fill-left" style="width: 88%"></div>
+              </div>
+            </div>
+            <div class="skill-logo" style="background: #76cfc5;">TS</div>
+          </div>
+          <div class="skill-item-right">
+            <div class="skill-percentage">85%</div>
+            <div class="progress-container">
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 85%"></div>
+              </div>
+            </div>
+            <div class="skill-logo" style="background: #ec6664;">H</div>
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-item">
+            <div class="skill-percentage">92%</div>
+            <div class="progress-container-left">
+              <div class="progress-bar-left">
+                <div class="progress-fill-left" style="width: 92%"></div>
+              </div>
+            </div>
+            <div class="skill-logo" style="background: #76cfc5;">C</div>
+          </div>
+          <div class="skill-item-right">
+            <div class="skill-percentage">87%</div>
+            <div class="progress-container">
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 87%"></div>
+              </div>
+            </div>
+            <div class="skill-logo" style="background: #ec6664;">B</div>
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-item">
+            <div class="skill-percentage">89%</div>
+            <div class="progress-container-left">
+              <div class="progress-bar-left">
+                <div class="progress-fill-left" style="width: 89%"></div>
+              </div>
+            </div>
+            <div class="skill-logo" style="background: #76cfc5;">N</div>
+          </div>
+          <div class="skill-item-right">
+            <div class="skill-percentage">83%</div>
+            <div class="progress-container">
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 83%"></div>
+              </div>
+            </div>
+            <div class="skill-logo" style="background: #ec6664;">G</div>
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-item">
+            <div class="skill-percentage">91%</div>
+            <div class="progress-container-left">
+              <div class="progress-bar-left">
+                <div class="progress-fill-left" style="width: 91%"></div>
+              </div>
+            </div>
+            <div class="skill-logo" style="background: #76cfc5;">P</div>
+          </div>
+          <div class="skill-item-right">
+            <div class="skill-percentage">86%</div>
+            <div class="progress-container">
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 86%"></div>
+              </div>
+            </div>
+            <div class="skill-logo" style="background: #ec6664;">V</div>
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-item">
+            <div class="skill-percentage">94%</div>
+            <div class="progress-container-left">
+              <div class="progress-bar-left">
+                <div class="progress-fill-left" style="width: 94%"></div>
+              </div>
+            </div>
+            <div class="skill-logo" style="background: #76cfc5;">G</div>
+          </div>
+          <div class="skill-item-right">
+            <div class="skill-percentage">82%</div>
+            <div class="progress-container">
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 82%"></div>
+              </div>
+            </div>
+            <div class="skill-logo" style="background: #ec6664;">G</div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-text">
+          © 2025 Someone. All rights reserved. • <a
+            href="#"
+            class="footer-link">Privacy Policy</a
+          > • <a href="#" class="footer-link">Terms of Service</a> • <a
+            href="#"
+            class="footer-link">Sitemap</a
+          >
+        </div>
+        <a href="https://github.com/tomcomtang/astro-cartoon-portfolio" class="footer-github">Star this project on Github</a>
+      </div>
+    </footer>
+  </body>
+</html>
+

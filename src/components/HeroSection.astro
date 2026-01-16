@@ -1,0 +1,73 @@
+---
+import { Fragment } from "astro/jsx-runtime";
+import { siteConfig } from "../config/site";
+---
+
+<section class="hero-section">
+  <div class="hero-content-wrapper page-content">
+    <div class="hero-left-col hero-content-animate">
+      <p class="hero-normal-text">{siteConfig.hero.prefix}</p>
+      <h1 class="hero-big-text">{siteConfig.hero.name}</h1>
+      <p class="hero-intro-text">
+        {siteConfig.hero.intro.split('\n').map((line, i, arr) => (
+          <Fragment>
+            {line}
+            {i < arr.length - 1 && <br />}
+          </Fragment>
+        ))}
+      </p>
+      <div class="hero-btn-row">
+        <a href="/posts" class="hero-btn">{siteConfig.hero.buttons.viewPosts}</a>
+        <a href="/contact" class="hero-btn-alt">{siteConfig.hero.buttons.contactMe}</a>
+      </div>
+    </div>
+    <div class="hero-right-col">
+      <img src={siteConfig.hero.avatar} alt="avatar" class="hero-avatar hero-avatar-animate" />
+      <div class="social-list">
+        {siteConfig.hero.socialLinks.map((social) => (
+          <a href={social.url} class="social-icon-btn social-icon-animate" aria-label={social.name}>
+            <img src={social.icon} alt={social.name.toLowerCase()} />
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Initialize page transition animations
+  document.addEventListener('DOMContentLoaded', () => {
+    // Trigger page content animation
+    const pageContent = document.querySelector('.page-content');
+    if (pageContent) {
+      requestAnimationFrame(() => {
+        pageContent.classList.add('visible');
+      });
+    }
+
+    // Trigger hero content animation
+    const heroContent = document.querySelector('.hero-content-animate');
+    if (heroContent) {
+      requestAnimationFrame(() => {
+        heroContent.classList.add('visible');
+      });
+    }
+
+    // Trigger hero avatar animation
+    const heroAvatar = document.querySelector('.hero-avatar-animate');
+    if (heroAvatar) {
+      requestAnimationFrame(() => {
+        heroAvatar.classList.add('visible');
+      });
+    }
+
+    // Trigger social icons animations
+    const socialIcons = document.querySelectorAll('.social-icon-animate');
+    socialIcons.forEach((icon) => {
+      requestAnimationFrame(() => {
+        icon.classList.add('visible');
+      });
+    });
+  });
+</script>
+

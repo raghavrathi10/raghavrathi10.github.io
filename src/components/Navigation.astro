@@ -1,0 +1,45 @@
+---
+// import { Astro } from "astro";
+import { siteConfig } from "../config/site";
+
+const currentPath = Astro.url.pathname;
+---
+
+<nav>
+  <a href="/" class="site-name">{siteConfig.name}</a>
+  <ul class="nav-menu">
+    <li>
+      <a href="/" class={`menu-link ${currentPath === "/" ? "active" : ""}`}
+        >{siteConfig.navigation.home}</a
+      >
+    </li>
+    <li>
+      <a
+        href="/posts"
+        class={`menu-link ${currentPath.startsWith("/posts") ? "active" : ""}`}
+        >{siteConfig.navigation.posts}</a
+      >
+    </li>
+    <li>
+      <a
+        href="/contact"
+        class={`menu-link ${currentPath.startsWith("/contact") ? "active" : ""}`}
+        >{siteConfig.navigation.contact}</a
+      >
+    </li>
+    <!-- <li>
+      <a
+        href="/comments"
+        class={`menu-link ${currentPath.startsWith("/comments") ? "active" : ""}`}
+        >{siteConfig.navigation.comments}</a
+      >
+    </li> -->
+    <li>
+      <a
+        href="/resume"
+        class={`menu-link ${currentPath.startsWith("/resume") ? "active" : ""}`}
+        >{siteConfig.navigation.resume}</a
+      >
+    </li>
+  </ul>
+</nav>

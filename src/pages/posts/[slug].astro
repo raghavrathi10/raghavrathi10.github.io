@@ -1,0 +1,324 @@
+---
+import { getCollection } from "astro:content";
+import { Fragment } from "astro/jsx-runtime";
+import "../../styles/home.css";
+import "../../styles/post-detail.css";
+import "../../styles/page-transitions.css";
+import Navigation from "../../components/Navigation.astro";
+import Footer from "../../components/Footer.astro";
+
+export async function getStaticPaths() {
+  const posts = (await getCollection("posts")) as any[];
+  return posts
+    .map((post) => {
+      // Get slug from post - try multiple fallbacks
+      let slug = post.slug;
+      if (!slug && post.id) {
+        // Extract slug from id (e.g., "posts/my-post.md" -> "my-post")
+        slug = post.id.split("/").pop()?.replace(/\.md$/, "") || "";
+      }
+      if (!slug) {
+        console.warn("Post missing slug in getStaticPaths:", post);
+        return null;
+      }
+      return {
+        params: { slug },
+        props: { post },
+      };
+    })
+    .filter(Boolean);
+}
+
+interface Props {
+  post: any;
+}
+
+const { post } = Astro.props;
+
+if (!post) {
+  throw new Error("Post is undefined");
+}
+
+// With glob loader in Astro 6.0, post has:
+// - post.data: frontmatter (already parsed by schema)
+// - post.body: markdown content (raw string)
+// - post.rendered: pre-rendered content (if available)
+let Content;
+
+// First, check if post.rendered exists and has Content
+if (
+  post.rendered &&
+  typeof post.rendered === "object" &&
+  post.rendered.Content
+) {
+  Content = post.rendered.Content;
+} else if (post.body) {
+  // Render markdown using unified/remark
+  const { unified } = await import("unified");
+  const remarkParse = (await import("remark-parse")).default;
+  const remarkRehype = (await import("remark-rehype")).default;
+  const rehypeStringify = (await import("rehype-stringify")).default;
+
+  const processor = unified()
+    .use(remarkParse)
+    .use(remarkRehype)
+    .use(rehypeStringify);
+
+  const result = await processor.process(post.body);
+  Content = String(result);
+} else {
+  throw new Error(
+    `Cannot find content in post. Available keys: ${Object.keys(post).join(", ")}`
+  );
+}
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{post.data.title} - Astro Blog</title>
+    <script>
+      // Disable browser scroll restoration and ensure page starts at top
+      if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+      }
+      // Immediately scroll to top on page load
+      window.scrollTo(0, 0);
+    </script>
+  </head>
+  <body>
+    <Navigation />
+
+    <main class="post-detail-page">
+      <div class="post-detail-container page-content">
+        <div class="post-header-card post-header-animate">
+          <h1 class="post-detail-title">{post.data.title}</h1>
+          {
+            post.data.tags && post.data.tags.length > 0 && (
+              <div class="post-detail-tags">
+                {post.data.tags.map((tag: string) => (
+                  <span class="post-detail-tag">{tag}</span>
+                ))}
+              </div>
+            )
+          }
+          <div class="post-detail-meta">
+            <a href="/posts" class="post-back-button"> ← Back to Posts </a>
+            <div class="post-detail-meta-info">
+              <img
+                src="/image/20943608.jpeg"
+                alt={post.data.author || "Someone"}
+                class="post-detail-avatar"
+              />
+              <span class="post-detail-author"
+                >{post.data.author || "Someone"}</span
+              >
+              <span class="post-detail-date">{post.data.date}</span>
+              <span class="post-detail-read-time">{post.data.readTime}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content post-content-animate">
+          {
+            typeof Content === "function" ? (
+              <Content />
+            ) : (
+              <div set:html={Content} />
+            )
+          }
+        </div>
+      </div>
+    </main>
+
+    <Footer />
+
+    <script>
+      // Ensure scroll position is at top after DOM loads
+      document.addEventListener("DOMContentLoaded", () => {
+        window.scrollTo(0, 0);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 0);
+      });
+      // Also ensure on page show (handles back/forward navigation)
+      window.addEventListener("pageshow", (event) => {
+        if (event.persisted) {
+          window.scrollTo(0, 0);
+        }
+      });
+
+      // Initialize page transition animations
+      document.addEventListener("DOMContentLoaded", () => {
+        // Trigger page content animation
+        const pageContent = document.querySelector(".page-content");
+        if (pageContent) {
+          requestAnimationFrame(() => {
+            pageContent.classList.add("visible");
+          });
+        }
+
+        // Trigger header animation
+        const header = document.querySelector(".post-header-animate");
+        if (header) {
+          requestAnimationFrame(() => {
+            header.classList.add("visible");
+          });
+        }
+
+        // Trigger content animation
+        const content = document.querySelector(".post-content-animate");
+        if (content) {
+          requestAnimationFrame(() => {
+            content.classList.add("visible");
+          });
+        }
+
+        // Apply heading spacing using CSS variables - elegant implementation
+        const applyHeadingSpacing = () => {
+          const postContent = document.querySelector(".post-content");
+          if (!postContent) return;
+
+          const rootStyles = getComputedStyle(document.documentElement);
+          const getCSSVar = (name: string, fallback: string) =>
+            rootStyles.getPropertyValue(name).trim() || fallback;
+
+          // Heading configuration - centralized and maintainable
+          const headingConfig = [
+            {
+              selector: "h2",
+              marginTopVar: "--post-h2-margin-top",
+              marginBottomVar: "--post-h2-margin-bottom",
+              contentMarginTopVar: "--post-h2-content-margin-top",
+              defaults: {
+                marginTop: "3rem",
+                marginBottom: "1.17rem",
+                contentMarginTop: "1.17rem",
+              },
+              skipFirstMarginTop: true,
+            },
+            {
+              selector: "h3",
+              marginTopVar: "--post-h3-margin-top",
+              marginBottomVar: "--post-h3-margin-bottom",
+              contentMarginTopVar: "--post-h3-content-margin-top",
+              defaults: {
+                marginTop: "2.5rem",
+                marginBottom: "1rem",
+                contentMarginTop: "1rem",
+              },
+              skipFirstMarginTop: false,
+            },
+            {
+              selector: "h4",
+              marginTopVar: "--post-h4-margin-top",
+              marginBottomVar: "--post-h4-margin-bottom",
+              contentMarginTopVar: "--post-h4-content-margin-top",
+              defaults: {
+                marginTop: "2rem",
+                marginBottom: "0.83rem",
+                contentMarginTop: "0.83rem",
+              },
+              skipFirstMarginTop: false,
+            },
+          ];
+
+          const contentTags = ["P", "UL", "OL", "PRE"];
+
+          // Process each heading type using configuration
+          headingConfig.forEach((config) => {
+            const headings = postContent.querySelectorAll(config.selector);
+            const marginTop = getCSSVar(
+              config.marginTopVar,
+              config.defaults.marginTop
+            );
+            const marginBottom = getCSSVar(
+              config.marginBottomVar,
+              config.defaults.marginBottom
+            );
+            const contentMarginTop = getCSSVar(
+              config.contentMarginTopVar,
+              config.defaults.contentMarginTop
+            );
+
+            headings.forEach((heading) => {
+              if (!(heading instanceof HTMLElement)) return;
+
+              // Apply heading margins
+              if (
+                config.skipFirstMarginTop &&
+                heading.previousElementSibling === null
+              ) {
+                heading.style.marginTop = "0";
+              } else {
+                heading.style.marginTop = marginTop;
+              }
+              heading.style.marginBottom = marginBottom;
+
+              // Apply content spacing after heading
+              const nextElement = heading.nextElementSibling;
+              if (
+                nextElement instanceof HTMLElement &&
+                contentTags.includes(nextElement.tagName)
+              ) {
+                nextElement.style.marginTop = contentMarginTop;
+              }
+            });
+          });
+        };
+
+        // Override code block inline styles - use function to run multiple times
+        const overrideCodeStyles = () => {
+          const codeBlocks = document.querySelectorAll(
+            ".post-content pre, .post-content pre.astro-code"
+          );
+          codeBlocks.forEach((pre) => {
+            if (pre instanceof HTMLElement) {
+              // Remove inline styles first, then set new ones
+              pre.style.removeProperty("background-color");
+              pre.style.removeProperty("color");
+              pre.style.backgroundColor = "#f5f5f5";
+              pre.style.borderRadius = "8px";
+              pre.style.color = "#333";
+
+              // Override code element styles
+              const code = pre.querySelector("code");
+              if (code instanceof HTMLElement) {
+                code.style.removeProperty("background-color");
+                code.style.removeProperty("color");
+                code.style.backgroundColor = "transparent";
+                code.style.color = "#333";
+
+                // Override all span styles inside code
+                const spans = code.querySelectorAll("span");
+                spans.forEach((span) => {
+                  if (span instanceof HTMLElement) {
+                    span.style.removeProperty("color");
+                    span.style.color = "#333";
+                  }
+                });
+              }
+            }
+          });
+        };
+
+        // Run immediately
+        applyHeadingSpacing();
+        overrideCodeStyles();
+
+        // Also run after delays to catch any late-rendered elements
+        setTimeout(() => {
+          applyHeadingSpacing();
+          overrideCodeStyles();
+        }, 100);
+        setTimeout(() => {
+          applyHeadingSpacing();
+          overrideCodeStyles();
+        }, 500);
+      });
+    </script>
+  </body>
+</html>

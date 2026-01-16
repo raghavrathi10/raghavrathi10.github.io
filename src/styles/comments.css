@@ -1,0 +1,172 @@
+/* Comments Page Styles */
+body {
+  background: linear-gradient(120deg, #f8fafc 0%, #f5f7fa 100%) !important;
+  min-height: 100vh;
+}
+
+.comments-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-top: 80px;
+  padding-bottom: 4rem;
+}
+
+.comments-page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  width: 100%;
+}
+
+.comments-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.comments-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  background: linear-gradient(90deg, #76cfc5 0%, #b4b8f8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.comments-subtitle {
+  font-size: 1.2rem;
+  color: #666;
+  margin: 0 auto;
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+.comments-divider {
+  height: 6px;
+  width: 120px;
+  margin: 1.5rem auto 2rem;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #76cfc5 0%, #b4b8f8 100%);
+}
+
+.guidelines-section {
+  margin-bottom: 2.5rem;
+}
+
+.guidelines-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #179b8e;
+  margin-bottom: 1.2rem;
+  margin-top: 0;
+  text-align: center;
+}
+
+.guidelines-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem 1.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0 auto 2.5rem auto;
+  max-width: 700px;
+  text-align: left;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.7;
+}
+
+.guideline-item {
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+
+.guideline-icon {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  margin-right: 0.7em;
+  vertical-align: middle;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.guideline-icon svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.guideline-icon-circle {
+  background: #76cfc5;
+}
+
+.guideline-icon-square {
+  background: #ffb400;
+}
+
+.guideline-icon-triangle {
+  background: #ec6664;
+}
+
+.guideline-icon-pentagon {
+  background: #b4b8f8;
+}
+
+.guideline-icon-star {
+  background: #76cfc5;
+}
+
+.guideline-icon-heart {
+  background: #ffb400;
+}
+
+.comments-section {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem 3rem 3rem 3rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+  margin: 0 auto 3rem auto;
+  max-width: 1200px;
+  min-height: 200px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .comments-page {
+    padding-top: 70px;
+    padding-bottom: 2rem;
+  }
+
+  .comments-page-container {
+    padding: 0 1rem;
+  }
+
+  .comments-title {
+    font-size: 2rem;
+  }
+
+  .comments-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .guidelines-list {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .guideline-item {
+    white-space: normal;
+  }
+
+  .comments-section {
+    padding: 2rem 1.5rem;
+  }
+}
+

@@ -1,0 +1,145 @@
+---
+import "../styles/home.css";
+import "../styles/contact.css";
+import "../styles/page-transitions.css";
+import Navigation from "../components/Navigation.astro";
+import Footer from "../components/Footer.astro";
+import { siteConfig } from "../config/site";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Get In Touch - Astro Blog</title>
+    <script>
+      // Disable browser scroll restoration and ensure page starts at top
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }
+      // Immediately scroll to top on page load
+      window.scrollTo(0, 0);
+    </script>
+  </head>
+  <body>
+    <Navigation />
+    
+    <main class="contact-page">
+      <div class="contact-page-container page-content">
+        <div class="contact-header contact-header-animate">
+          <h1 class="contact-title">{siteConfig.contact.title}</h1>
+          <p class="contact-subtitle">
+            {siteConfig.contact.subtitle}
+          </p>
+        </div>
+
+        <div class="contact-grid">
+          <!-- Contact Info Card -->
+          <div class="contact-card contact-card-animate">
+            <h2 class="contact-card-title">Contact Info</h2>
+            <div class="contact-info-list">
+              <div class="contact-info-item">
+                <div class="contact-icon-wrapper email-icon">
+                  <img src="/svg/email.svg" alt="email icon" class="contact-icon" />
+                </div>
+                <div class="contact-info-content">
+                  <div class="contact-info-label">{siteConfig.contact.info.email.label}</div>
+                  <a href={siteConfig.contact.info.email.link} class="contact-info-value">{siteConfig.contact.info.email.value}</a>
+                </div>
+              </div>
+
+              <!-- <div class="contact-info-item">
+                <div class="contact-icon-wrapper phone-icon">
+                  <img src="/svg/phone.svg" alt="phone icon" class="contact-icon" />
+                </div>
+                <div class="contact-info-content">
+                  <div class="contact-info-label">{siteConfig.contact.info.phone.label}</div>
+                  <a href={siteConfig.contact.info.phone.link} class="contact-info-value">{siteConfig.contact.info.phone.value}</a>
+                </div>
+              </div> -->
+
+              <!-- <div class="contact-info-item">
+                <div class="contact-icon-wrapper location-icon">
+                  <img src="/svg/location.svg" alt="location icon" class="contact-icon" />
+                </div>
+                <div class="contact-info-content">
+                  <div class="contact-info-label">{siteConfig.contact.info.location.label}</div>
+                  <div class="contact-info-value">{siteConfig.contact.info.location.value}</div>
+                </div>
+              </div> -->
+            </div>
+            <div class="contact-message-button-wrapper">
+              <a href="/comments" class="contact-message-button">{siteConfig.contact.messageButton}</a>
+            </div>
+          </div>
+
+          <!-- Follow Me Card -->
+          <div class="contact-card contact-card-animate">
+            <h3 class="contact-card-subtitle">{siteConfig.contact.followMe.title}</h3>
+            <div class="social-icons-list">
+              {siteConfig.contact.followMe.links.map((social) => (
+                <a href={social.url} target="_blank" rel="noopener noreferrer" class="social-icon-link" title={social.name.toLowerCase()}>
+                  <img src={social.icon} alt={`${social.name} icon`} />
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-footer-text comments-content-animate">
+          {siteConfig.contact.footerText.map((text) => (
+            <p>{text}</p>
+          ))}
+        </div>
+      </div>
+    </main>
+
+    <Footer />
+
+    <script>
+      // Ensure scroll position is at top after DOM loads
+      document.addEventListener('DOMContentLoaded', () => {
+        window.scrollTo(0, 0);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 0);
+      });
+      // Also ensure on page show (handles back/forward navigation)
+      window.addEventListener('pageshow', (event) => {
+        if (event.persisted) {
+          window.scrollTo(0, 0);
+        }
+      });
+
+      // Initialize page transition animations
+      document.addEventListener('DOMContentLoaded', () => {
+        // Trigger page content animation
+        const pageContent = document.querySelector('.page-content');
+        if (pageContent) {
+          requestAnimationFrame(() => {
+            pageContent.classList.add('visible');
+          });
+        }
+
+        // Trigger header animation
+        const header = document.querySelector('.contact-header-animate');
+        if (header) {
+          requestAnimationFrame(() => {
+            header.classList.add('visible');
+          });
+        }
+
+        // Trigger card animations
+        const cards = document.querySelectorAll('.contact-card-animate');
+        cards.forEach((card) => {
+          requestAnimationFrame(() => {
+            card.classList.add('visible');
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
+

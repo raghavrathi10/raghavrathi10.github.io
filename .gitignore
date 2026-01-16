@@ -1,12 +1,24 @@
-# Ignore the contents of the _site directory
-_site/
+# Build output
+dist/
+vendor/
 
-# Ignore the directory for local files during development
-local/
+# Dependencies
+node_modules/
 
-# Ignore the Gemfile that is generated
-Gemfile.lock
+# Environment variables
+.env
+.env.production
+.env.*.local
 
-# Ingore files created by npm
-node_modules
-package-lock.json
+# IDE / Editor folders
+.vscode/
+.idea/
+.DS_Store
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Astro Cache
+.astro/

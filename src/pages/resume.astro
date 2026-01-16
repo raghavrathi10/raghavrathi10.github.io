@@ -1,0 +1,173 @@
+---
+// src/pages/resume.astro
+
+import "../styles/home.css";
+import "../styles/contact.css";
+import "../styles/page-transitions.css";
+import { siteConfig } from "../config/site";
+import Navigation from "../components/Navigation.astro";
+import Footer from "../components/Footer.astro";
+
+// Import the data from your new file
+import { data } from "../data/resume";
+---
+
+<Navigation />
+
+<main class="resume-container">
+    <article class="resume" aria-label="Resume">
+        <header class="head">
+            <div>
+                <h1 class="name">{data.name}</h1>
+                <p class="title">{data.title}</p>
+                <a href="/public/Files/RaghavRathi_Resume.pdf" download="RaghavRathi_Resume.pdf" class="download-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                Download PDF
+                </a>
+            </div>
+            <address class="contact">
+                {data.contact?.website ? (
+                    <div><a href={data.contact.website} rel="noopener">{data.contact.website}</a></div>
+                ) : null}
+                {data.contact?.email ? <div><a href={`mailto:${data.contact.email}`}>{data.contact.email}</a></div> : null}
+                {data.contact?.phone ? <div>{data.contact.phone}</div> : null}
+                {data.contact?.location ? <div>{data.contact.location}</div> : null}
+            </address>
+        </header>
+
+        {data.summary ? (
+            <section>
+                <h2>Summary</h2>
+                <p>{data.summary}</p>
+            </section>
+        ) : null}
+
+        {data.skills && data.skills.length ? (
+            <section>
+                <h2>Skills</h2>
+                <ul class="chips">
+                    {data.skills.map((s) => <li>{s}</li>)}
+                </ul>
+            </section>
+        ) : null}
+
+        {data.experience && data.experience.length ? (
+            <section>
+                <h2>Experience</h2>
+                {data.experience.map((exp) => (
+                    <article class="exp">
+                        <header class="exp-head">
+                            <div class="role">{exp.role}</div>
+                            <div class="meta">{exp.company} · <time>{exp.start}</time>{exp.end ? ` — ${exp.end}` : ""}</div>
+                        </header>
+                        {exp.bullets?.length ? (
+                            <ul>
+                                {exp.bullets.map((b) => <li>{b}</li>)}
+                            </ul>
+                        ) : null}
+                    </article>
+                ))}
+            </section>
+        ) : null}
+
+        {data.projects && data.projects.length ? (
+            <section>
+                <h2>Projects</h2>
+                <ul>
+                    {data.projects.map((p) => (
+                        <li>
+                            <strong>{p.name}</strong>{p.link ? <a href={p.link} rel="noopener"> ↗</a> : null}
+                            {p.desc ? <div class="muted">{p.desc}</div> : null}
+                        </li>
+                    ))}
+                </ul>
+            </section>
+        ) : null}
+
+        {data.education && data.education.length ? (
+            <section>
+                <h2>Education</h2>
+                <ul>
+                    {data.education.map((e) => (
+                        <li>{e.school}{e.degree ? ` — ${e.degree}` : ""}{e.year ? ` (${e.year})` : ""}</li>
+                    ))}
+                </ul>
+            </section>
+        ) : null}
+    </article>
+</main>
+
+<Footer />
+
+<style>
+    :root {
+        --bg: #fff;
+        --muted: #6b7280;
+        --accent: #0ea5a4;
+        --text: #0f172a;
+    }
+    
+    /* 1. This wrapper ensures the resume starts below the fixed navigation */
+    .resume-container {
+        padding-top: 80px; /* Adjust this number if your header is taller */
+        padding-bottom: 4rem;
+        min-height: 100vh;
+    }
+
+    .resume {
+        max-width: 900px;
+        margin: 0 auto; /* Removed the 2rem top margin since container handles it */
+        padding: 1.5rem;
+        background: var(--bg);
+        color: var(--text);
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        border-radius: 10px;
+        box-shadow: 0 6px 20px rgba(15,23,42,0.06);
+    }
+
+    .download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    padding: 0.4rem 0.8rem;
+    background-color: var(--accent);
+    color: white !important;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    }
+
+    .download-btn:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+    }
+
+    .download-btn svg {
+        stroke: white;
+    }
+
+    /* ... The rest of your CSS remains the same ... */
+    .head { display: flex; justify-content: space-between; gap: 1rem; align-items: start; margin-bottom: 1rem; }
+    .name { margin: 0; font-size: 1.45rem; }
+    .title { margin: 0.15rem 0 0; color: var(--muted); font-size: .95rem; }
+    .contact { text-align: right; font-size: .9rem; font-style: normal; color: var(--muted); }
+    h2 { margin: 1.2rem 0 .4rem; font-size: 1.05rem; }
+    section p { margin: 0.25rem 0; color: var(--muted); }
+    .chips { display: flex; flex-wrap: wrap; gap: .4rem; list-style: none; padding: 0; margin: .25rem 0 0; }
+    .chips li { background: #f1f5f9; padding: .35rem .6rem; border-radius: 999px; font-size: .85rem; color: #0f172a; }
+    .exp { margin: .6rem 0; }
+    .exp-head { display:flex; justify-content:space-between; gap:1rem; align-items:baseline; }
+    .role { font-weight:600; }
+    .meta { color: var(--muted); font-size:.9rem; }
+    ul { padding-left: 1.25rem; margin: .35rem 0; color: var(--muted); }
+    a { color: var(--accent); text-decoration: none; }
+    .muted { color: var(--muted); font-size: .95rem; margin-top: .2rem; }
+    @media (max-width:600px) {
+        .head { flex-direction: column; align-items: flex-start; }
+        .contact { text-align: left; margin-top: .5rem; }
+        .resume-container { padding-top: 60px; } /* Slightly less padding on mobile */
+    }
+</style>

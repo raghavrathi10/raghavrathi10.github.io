@@ -1,0 +1,54 @@
+---
+import "../styles/home.css";
+import "../styles/page-transitions.css";
+import Navigation from "../components/Navigation.astro";
+import HeroSection from "../components/HeroSection.astro";
+import AboutSection from "../components/AboutSection.astro";
+import ProficiencySection from "../components/ProficiencySection.astro";
+import ProjectsSection from "../components/ProjectsSection.astro";
+import Resume from "../components/Resume.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Astro Blog</title>
+    <script>
+      // Disable browser scroll restoration and ensure page starts at top
+      if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+      }
+      // Immediately scroll to top on page load
+      window.scrollTo(0, 0);
+    </script>
+  </head>
+  <body>
+    <Navigation />
+    <HeroSection />
+    <AboutSection />
+    <ProjectsSection />
+    <ProficiencySection />
+    <resume />
+    <Footer />
+    <script>
+      // Ensure scroll position is at top after DOM loads
+      document.addEventListener("DOMContentLoaded", () => {
+        window.scrollTo(0, 0);
+        // Also ensure after a short delay to handle any layout shifts
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 0);
+      });
+      // Also ensure on page show (handles back/forward navigation)
+      window.addEventListener("pageshow", (event) => {
+        if (event.persisted) {
+          window.scrollTo(0, 0);
+        }
+      });
+    </script>
+  </body>
+</html>
