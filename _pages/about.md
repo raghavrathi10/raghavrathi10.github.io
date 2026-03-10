@@ -12,7 +12,7 @@ redirect_from:
 
 I am a recent PhD graduate from the Florida State University (Class of 2024), where I worked under the guidance of [Dr. Zhenghao Zhang](https://www.cs.fsu.edu/department/faculty/zzhang/). 
 
-🔬 My research interests are in the field of Wireless Communication, Low Power Wide Area Networks(LPWAN) and Satellite Communication.
+🔬 I have over 6 years of experience in research and software development in the field of cybersecurity, wireless communication, and satellite communication.
 
 📚 I have worked on projects related to starlink and LoRa technology. My most recent project [StarAngle](https://dl.acm.org/doi/10.1145/3666025.3699367), is based on user orientation calculation using the beacon signals transmitted by starlink satellites.
 
